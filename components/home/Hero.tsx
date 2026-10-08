@@ -21,15 +21,10 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#05966910_1px,transparent_1px),linear-gradient(to_bottom,#05966910_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        {/* Subtitle location */}
-        <div className="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-emerald-400 mb-4 bg-emerald-950/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-emerald-500/30 shadow-lg shadow-emerald-950/50">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>from Nairobi, Kenya.</span>
-        </div>
-
         {/* Pill Badge */}
-        <div className="block mb-6">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-900/40 backdrop-blur-md border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide">
+        <div className="inline-block mb-6">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-950/60 backdrop-blur-md border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-semibold tracking-wide shadow-lg shadow-emerald-950/50">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             Technology Solutions Built For Growing Businesses
           </span>
         </div>
@@ -87,10 +82,10 @@ export default function Hero() {
           </div>
           <div>
             <span className="text-3xl sm:text-5xl font-black font-display text-white block drop-shadow">
-              Nairobi
+              24/7
             </span>
             <p className="text-[11px] sm:text-xs font-bold tracking-wider text-emerald-400 uppercase font-mono mt-1">
-              BASED IN KENYA
+              DEDICATED SUPPORT
             </p>
           </div>
         </div>
@@ -98,5 +93,6 @@ export default function Hero() {
     </section>
   );
 }
+
 
 

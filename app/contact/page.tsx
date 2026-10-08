@@ -23,7 +23,7 @@ export default function ContactPage() {
     email: "",
     phone: "",
     service: "",
-    budgetRange: "$1,000 - $3,000",
+    budgetRange: "KES 20,000 - KES 50,000",
     preferredContact: "WhatsApp",
     projectDescription: "",
   });
@@ -237,23 +237,24 @@ export default function ContactPage() {
                     </select>
                   </div>
 
-                  {/* Budget Range */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-mono text-slate-700 dark:text-slate-300 uppercase font-bold">
-                      Budget Range
-                    </label>
-                    <select
-                      name="budgetRange"
-                      value={formData.budgetRange}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#15803d] transition-colors text-sm"
-                    >
-                      <option value="Under $1,000">Under $1,000 (Basic Website)</option>
-                      <option value="$1,000 - $3,000">$1,000 - $3,000 (Standard System / E-Commerce)</option>
-                      <option value="$3,000 - $6,000">$3,000 - $6,000 (Custom ERP / ISP Platform)</option>
-                      <option value="$6,000+">$6,000+ (Large Enterprise / Multi-Tenant)</option>
-                    </select>
-                  </div>
+                    {/* Budget Range */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-slate-700 dark:text-slate-300 uppercase font-bold">
+                        Budget Range
+                      </label>
+                      <select
+                        name="budgetRange"
+                        value={formData.budgetRange}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#15803d] transition-colors text-sm"
+                      >
+                        <option value="KES 12,000 - KES 25,000">KES 12,000 - KES 25,000 (Portfolio / Personal Site)</option>
+                        <option value="KES 20,000 - KES 50,000">KES 20,000 - KES 50,000 (Business Website / Company Portal)</option>
+                        <option value="KES 40,000 - KES 90,000">KES 40,000 - KES 90,000 (E-Commerce Store / Booking System)</option>
+                        <option value="KES 90,000 - KES 180,000">KES 90,000 - KES 180,000 (Custom ERP / ISP Platform)</option>
+                        <option value="KES 200,000+">KES 200,000+ (Large Enterprise / Mobile App / Multi-System)</option>
+                      </select>
+                    </div>
                 </div>
 
                 {/* Preferred Contact Method */}
