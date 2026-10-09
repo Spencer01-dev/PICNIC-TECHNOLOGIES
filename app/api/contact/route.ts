@@ -80,10 +80,13 @@ export async function POST(request: Request) {
 
     console.log("✅ INQUIRY SAVED TO BACKEND:", savedInquiry.id);
 
-    // 4. Dispatch email notification in background (if configured)
-    sendInquiryNotification(savedInquiry).catch((emailErr) => {
+    // 4. Dispatch email notification via Resend (MUST be awaited on Cloudflare edge runtime)
+    try {
+      const emailResult = await sendInquiryNotification(savedInquiry);
+      console.log("📧 Email dispatch result:", emailResult);
+    } catch (emailErr) {
       console.error("Background email dispatch failed:", emailErr);
-    });
+    }
 
     return NextResponse.json({
       success: true,
