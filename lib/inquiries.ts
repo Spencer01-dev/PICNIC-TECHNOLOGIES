@@ -19,7 +19,7 @@ const DATA_DIR = path.join(process.cwd(), "data");
 const INQUIRIES_FILE = path.join(DATA_DIR, "inquiries.json");
 
 // Helper to access Cloudflare KV if bound in any edge context
-function getCloudflareKV(): any {
+export function getCloudflareKV(): any {
   const g = globalThis as any;
   if (g?.INQUIRIES_KV && typeof g.INQUIRIES_KV.get === "function") return g.INQUIRIES_KV;
   if (g?.env?.INQUIRIES_KV && typeof g.env.INQUIRIES_KV.get === "function") return g.env.INQUIRIES_KV;
