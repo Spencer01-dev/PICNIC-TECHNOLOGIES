@@ -58,7 +58,7 @@ export async function GET(request: Request) {
         hasGlobalInquiriesKV: typeof g.INQUIRIES_KV,
         hasEnvInquiriesKV: typeof g.env?.INQUIRIES_KV,
         hasCfEnvInquiriesKV: typeof g.__cf_env?.INQUIRIES_KV,
-        kvFound: Boolean(getCloudflareKV()),
+        kvFound: Boolean(await getCloudflareKV()),
       }, { headers: getSecurityHeaders() });
     }
 

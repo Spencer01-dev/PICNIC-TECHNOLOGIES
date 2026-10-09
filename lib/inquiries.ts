@@ -18,8 +18,16 @@ export interface Inquiry {
 const DATA_DIR = path.join(process.cwd(), "data");
 const INQUIRIES_FILE = path.join(DATA_DIR, "inquiries.json");
 
-// Helper to access Cloudflare KV if bound in any edge context
-export function getCloudflareKV(): any {
+// Helper to access Cloudflare KV if bound in OpenNext or edge context
+export async function getCloudflareKV(): Promise<any> {
+  try {
+    const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+    const ctx: any = await getCloudflareContext({ async: true });
+    if (ctx?.env?.INQUIRIES_KV) return ctx.env.INQUIRIES_KV;
+  } catch {
+    // Fallback for non-OpenNext or local runtime
+  }
+
   const g = globalThis as any;
   if (g?.INQUIRIES_KV && typeof g.INQUIRIES_KV.get === "function") return g.INQUIRIES_KV;
   if (g?.env?.INQUIRIES_KV && typeof g.env.INQUIRIES_KV.get === "function") return g.env.INQUIRIES_KV;
@@ -70,7 +78,7 @@ async function ensureDataFile(): Promise<void> {
 
 export async function getAllInquiries(): Promise<Inquiry[]> {
   // 1. Try Cloudflare KV
-  const kv = getCloudflareKV();
+  const kv = await getCloudflareKV();
   if (kv) {
     try {
       const data = await kv.get("inquiries_list", "json");
@@ -118,7 +126,7 @@ export async function getAllInquiries(): Promise<Inquiry[]> {
 
 async function persistInquiries(inquiries: Inquiry[]): Promise<void> {
   // 1. Try Cloudflare KV
-  const kv = getCloudflareKV();
+  const kv = await getCloudflareKV();
   if (kv) {
     try {
       await kv.put("inquiries_list", JSON.stringify(inquiries));
