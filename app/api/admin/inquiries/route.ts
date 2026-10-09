@@ -48,6 +48,19 @@ export async function GET(request: Request) {
   }
 
   try {
+    const url = new URL(request.url);
+    if (url.searchParams.get("debug") === "1") {
+      const g = globalThis as any;
+      return NextResponse.json({
+        globalKeys: Object.keys(g).filter((k) => !k.startsWith("_")),
+        symbols: Object.getOwnPropertySymbols(g).map((s) => s.toString()),
+        hasGlobalInquiriesKV: typeof g.INQUIRIES_KV,
+        hasEnvInquiriesKV: typeof g.env?.INQUIRIES_KV,
+        hasCfEnvInquiriesKV: typeof g.__cf_env?.INQUIRIES_KV,
+        kvFound: Boolean(getCloudflareKV()),
+      }, { headers: getSecurityHeaders() });
+    }
+
     const inquiries = await getAllInquiries();
     return NextResponse.json({ inquiries }, { headers: getSecurityHeaders() });
   } catch (error) {
