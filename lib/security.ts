@@ -40,7 +40,7 @@ export function timingSafeEqual(a: string, b: string): boolean {
 const SECRET_SALT = process.env.ADMIN_SESSION_SECRET || "picnic-technologies-secure-salt-2025";
 
 export function generateAdminSessionToken(): string {
-  const adminKey = process.env.ADMIN_PASSKEY || "picnic@2025";
+  const adminKey = process.env.ADMIN_PASSKEY || "Spence@2002";
   const timestamp = Date.now().toString();
   // Valid for 12 hours
   const payload = `${timestamp}:${adminKey}`;
@@ -50,7 +50,7 @@ export function generateAdminSessionToken(): string {
 
 export function verifyAdminSessionToken(token: string): boolean {
   if (!token || typeof token !== "string" || !token.includes(".")) return false;
-  const adminKey = process.env.ADMIN_PASSKEY || "picnic@2025";
+  const adminKey = process.env.ADMIN_PASSKEY || "Spence@2002";
 
   // Also support direct passkey comparison for backward compatibility
   if (timingSafeEqual(token, adminKey)) {
