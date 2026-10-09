@@ -154,7 +154,7 @@ export default function ContactPage() {
                       type="text"
                       name="fullName"
                       required
-                      placeholder="e.g. John Doe"
+                      placeholder="Enter your full name"
                       value={formData.fullName}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#15803d] transition-colors text-sm"
@@ -187,7 +187,7 @@ export default function ContactPage() {
                       type="email"
                       name="email"
                       required
-                      placeholder="john@company.com"
+                      placeholder="name@company.com"
                       value={formData.email}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#15803d] transition-colors text-sm"
