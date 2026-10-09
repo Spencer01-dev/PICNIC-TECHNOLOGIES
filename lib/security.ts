@@ -36,11 +36,24 @@ export function timingSafeEqual(a: string, b: string): boolean {
   }
 }
 
+// 0. Environment variable resolution across Node.js & Cloudflare edge runtimes
+export function getEnv(name: string, fallback: string = ""): string {
+  if (typeof process !== "undefined" && process.env?.[name]) {
+    return process.env[name] as string;
+  }
+  const g = globalThis as any;
+  if (g?.[name]) return String(g[name]);
+  if (g?.env?.[name]) return String(g.env[name]);
+  if (g?.__env__?.[name]) return String(g.__env__[name]);
+  if (g?.__cf_env?.[name]) return String(g.__cf_env[name]);
+  return fallback;
+}
+
 // 4. Cryptographic HMAC Token for Admin Sessions
-const SECRET_SALT = process.env.ADMIN_SESSION_SECRET || "picnic-technologies-secure-salt-2025";
+const SECRET_SALT = getEnv("ADMIN_SESSION_SECRET", "picnic-technologies-secure-salt-2025");
 
 export function generateAdminSessionToken(): string {
-  const adminKey = process.env.ADMIN_PASSKEY || "Spence@2002";
+  const adminKey = getEnv("ADMIN_PASSKEY", "Spence@2002");
   const timestamp = Date.now().toString();
   // Valid for 12 hours
   const payload = `${timestamp}:${adminKey}`;
@@ -50,7 +63,7 @@ export function generateAdminSessionToken(): string {
 
 export function verifyAdminSessionToken(token: string): boolean {
   if (!token || typeof token !== "string" || !token.includes(".")) return false;
-  const adminKey = process.env.ADMIN_PASSKEY || "Spence@2002";
+  const adminKey = getEnv("ADMIN_PASSKEY", "Spence@2002");
 
   // Also support direct passkey comparison for backward compatibility
   if (timingSafeEqual(token, adminKey)) {

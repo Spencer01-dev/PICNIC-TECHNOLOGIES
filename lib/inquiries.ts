@@ -18,17 +18,16 @@ export interface Inquiry {
 const DATA_DIR = path.join(process.cwd(), "data");
 const INQUIRIES_FILE = path.join(DATA_DIR, "inquiries.json");
 
-// Helper to access Cloudflare KV if bound
+// Helper to access Cloudflare KV if bound in any edge context
 function getCloudflareKV(): any {
-  if (typeof (globalThis as any).INQUIRIES_KV !== "undefined") {
-    return (globalThis as any).INQUIRIES_KV;
-  }
-  if (
-    typeof (process.env as any).INQUIRIES_KV !== "undefined" &&
-    typeof (process.env as any).INQUIRIES_KV?.get === "function"
-  ) {
-    return (process.env as any).INQUIRIES_KV;
-  }
+  const g = globalThis as any;
+  if (g?.INQUIRIES_KV && typeof g.INQUIRIES_KV.get === "function") return g.INQUIRIES_KV;
+  if (g?.env?.INQUIRIES_KV && typeof g.env.INQUIRIES_KV.get === "function") return g.env.INQUIRIES_KV;
+  if (g?.__env__?.INQUIRIES_KV && typeof g.__env__.INQUIRIES_KV.get === "function") return g.__env__.INQUIRIES_KV;
+  if (g?.__cf_env?.INQUIRIES_KV && typeof g.__cf_env.INQUIRIES_KV.get === "function") return g.__cf_env.INQUIRIES_KV;
+
+  const p = (typeof process !== "undefined" ? process.env : null) as any;
+  if (p?.INQUIRIES_KV && typeof p.INQUIRIES_KV.get === "function") return p.INQUIRIES_KV;
   return null;
 }
 

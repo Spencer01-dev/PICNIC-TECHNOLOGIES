@@ -5,6 +5,7 @@ import {
   checkRateLimit,
   getClientIp,
   sanitizeInput,
+  getEnv,
 } from "@/lib/security";
 
 export async function POST(request: Request) {
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const passkey = sanitizeInput(body.passkey, 100);
-    const correctPasskey = process.env.ADMIN_PASSKEY || "Spence@2002";
+    const correctPasskey = getEnv("ADMIN_PASSKEY", "Spence@2002");
 
     // 2. Timing-Safe Comparison (Prevents CPU timing attacks)
     const isValid = timingSafeEqual(passkey, correctPasskey);

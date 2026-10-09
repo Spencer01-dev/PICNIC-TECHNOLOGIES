@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { Inquiry } from "./inquiries";
-import { escapeHtml } from "./security";
+import { escapeHtml, getEnv } from "./security";
 
 export interface SendEmailResult {
   sent: boolean;
@@ -12,8 +12,8 @@ export async function sendInquiryNotification(
   inquiry: Inquiry
 ): Promise<SendEmailResult> {
   const adminEmail =
-    process.env.ADMIN_NOTIFICATION_EMAIL ||
-    process.env.ADMIN_EMAIL ||
+    getEnv("ADMIN_NOTIFICATION_EMAIL") ||
+    getEnv("ADMIN_EMAIL") ||
     "picnictechnologies2@gmail.com";
 
   const safeFullName = escapeHtml(inquiry.fullName);
@@ -115,16 +115,17 @@ export async function sendInquiryNotification(
   `;
 
   // 1. Check for Resend API Key
-  if (process.env.RESEND_API_KEY) {
+  const resendApiKey = getEnv("RESEND_API_KEY");
+  if (resendApiKey) {
     try {
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+          Authorization: `Bearer ${resendApiKey}`,
         },
         body: JSON.stringify({
-          from: process.env.RESEND_FROM_EMAIL || "Picnic Technologies <onboarding@resend.dev>",
+          from: getEnv("RESEND_FROM_EMAIL", "Picnic Technologies <onboarding@resend.dev>"),
           to: adminEmail,
           subject: emailSubject,
           html: htmlContent,
